@@ -62,14 +62,13 @@ public class MainActivity extends AppCompatActivity {
         }
 
     @Override
-    protected void onActivityResult(int requestCode, int responseCode, Intent data){
-        if ((requestCode == 10) && (resposeCode == Activity.RESULT_OK)){
+    public void onActivityResult(int requestCode, int responseCode, Intent data){
+        if ((requestCode == 10)){
             Log.i(ACTIVITY_NAME, "returned to MainActivity.onActivityResult");
-            String messagePassed = data.getStringExtra("Response");
-            CharSequence text = "ListItemsActivity passed: " + messagePassed;
-            int duration = Toast.LENGTH_LONG;
-            Toast toast = Toast.makeText(this, text, duration);
-            toast.show();
+            if (responseCode == Activity.RESULT_OK) {
+                String messagePassed = data.getStringExtra("Response");
+                Toast.makeText(getApplicationContext(), messagePassed, Toast.LENGTH_LONG).show();
+            }
         }
     }
 
