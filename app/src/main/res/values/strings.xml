@@ -9,4 +9,11 @@
     <string name="CheckBox">CheckBox</string>
     <string name="RadioButton">RadioButton</string>
     <string name="Button">Login</string>
+    <string name="dialog_Message">Do you want to finish the activity?</string>
+    <string name="dialog_Title">Finish</string>
+    <string name="ok">Ok</string>
+    <string name="cancel">Cancel</string>
+    <string name="chatButton">Start Chat</string>
+    <string name = "send">Send</string>
+    <string name = "text">new Text</string>
 </resources>

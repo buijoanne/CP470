@@ -30,6 +30,17 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        Button chatButton = (Button)findViewById(R.id.button2);
+        chatButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Log.i(ACTIVITY_NAME, "User clicked Start Chat");
+                Intent i = new Intent(MainActivity.this, ChatWindow.class);
+                startActivity(i);
+
+            }
+        });
+
     }
 
 
@@ -71,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
 
 
 

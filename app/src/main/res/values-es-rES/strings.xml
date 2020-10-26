@@ -13,4 +13,7 @@
     <string name = "dialog_Title">Terminar</string>
     <string name = "ok">Bueno</string>
     <string name="cancel">Cancelar</string>
+    <string name = "chatButton">comenzar Chat</string>
+    <string name = "send">enviar</string>
+    <string name = "text">new Text</string>
 </resources>
