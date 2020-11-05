@@ -16,4 +16,8 @@
     <string name = "chatButton">comenzar Chat</string>
     <string name = "send">enviar</string>
     <string name = "text">new Text</string>
+    <string name="testToolbar">Test Toolbar</string>
+    <string name="title_activity_test_toolbar">title_activity_test_toolbar</string>
+    <string name="goBack">Do you want to go back?</string>
+    <string name ="sendMessage">Send Message</string>
 </resources>
