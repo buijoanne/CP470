@@ -3,6 +3,8 @@ package com.example.androidassignments;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ContentValues;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,6 +17,9 @@ import android.widget.ArrayAdapter;
 import java.util.*;
 import android.content.Context;
 import android.widget.TextView;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+
 
 public class ChatWindow extends AppCompatActivity {
     protected static final String ACTIVITY_NAME = "ChatWindow";
@@ -22,6 +27,15 @@ public class ChatWindow extends AppCompatActivity {
     ArrayList<String> chatRecords = new ArrayList<>();
     ListView listView;
     EditText editText;
+    static SQLiteDatabase db;
+    ChatDatabaseHelper c;
+    private Cursor cursor;
+    private String[] columns;
+
+    ArrayList<String> messages = new ArrayList<>();
+    ContentValues contentValues = new ContentValues();
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,17 +44,45 @@ public class ChatWindow extends AppCompatActivity {
         final ListView listView = (ListView)findViewById(R.id.lV);
         final EditText editText = (EditText)findViewById(R.id.editText);
         final ChatAdapter messageAdapter =new ChatAdapter( ChatWindow.this );
+
+        c = new ChatDatabaseHelper(this);
+        db = c.getReadableDatabase();
+
+        String[] columns = {ChatDatabaseHelper.KEY_MESSAGE};
+        final Cursor cursor = db.query(ChatDatabaseHelper.TABLE_NAME, columns, null, null, null, null, null);
+        cursor.moveToFirst();
+
+        while (!cursor.isAfterLast()) {
+            Log.i(ACTIVITY_NAME, "SELECT KEY_MESSAGE FROM RECORDS " + cursor.getString(cursor.getColumnIndex(ChatDatabaseHelper.KEY_MESSAGE)));
+            messages.add(cursor.getString(cursor.getColumnIndex(ChatDatabaseHelper.KEY_MESSAGE)));
+            cursor.moveToNext();
+        }
+        Log.i(ACTIVITY_NAME, "column count: " + cursor.getColumnCount());
+        int columnIndex;
+        for (columnIndex = 0; columnIndex < cursor.getColumnCount();columnIndex++){
+            Log.i(ACTIVITY_NAME,"column name: " + cursor.getColumnName(columnIndex));
+
+
+        }
+
         listView.setAdapter (messageAdapter);
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 chatRecords.add(editText.getText().toString());
                 messageAdapter.notifyDataSetChanged(); //this restarts the process of getCount()
+                contentValues.put(ChatDatabaseHelper.KEY_MESSAGE, editText.getText().toString());
+                db.insert(ChatDatabaseHelper.TABLE_NAME, "null", contentValues);
+
                 editText.setText("");
+
+
+
 
 
             }
         });
+
 
     }
 
@@ -67,6 +109,11 @@ public class ChatWindow extends AppCompatActivity {
 
         }
 
+    }
+    protected void onDestroy(){
+        super.onDestroy();
+        Log.i(ACTIVITY_NAME, "In onDestroy()");
+        db.close();
     }
 
 
